@@ -1,0 +1,64 @@
+# Kiểm tra deck mỗi lần push / mở PR: validate → kịch bản đồng bộ → build → chụp QA mọi slide (tải ở mục Artifacts).
+name: deck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deck-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate content
+        run: npm run validate
+      - name: SCRIPT.md is up to date with notes.ts
+        run: |
+          npm run script || true
+          if [ -n "$(git status --porcelain SCRIPT.md)" ]; then
+            echo "::error::SCRIPT.md chưa cập nhật — chạy 'npm run script' rồi commit"; git --no-pager diff --stat SCRIPT.md; exit 1
+          fi
+      - name: Build
+        run: npm run build
+
+  screenshots:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Serve build
+        run: |
+          npx vite preview --port 4173 --strictPort &
+          npx --yes wait-on@8 http://localhost:4173 --timeout 60000
+      - name: QA screenshots (offline, every slide at its last beat)
+        run: npm run qa -- --url http://localhost:4173 --offline --wait 3500
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-screenshots
+          path: qa/
+          retention-days: 14

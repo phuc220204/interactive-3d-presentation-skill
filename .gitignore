@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-single/
+qa/
+.content-backup/
+public/assets/remote/
+SCRIPT.md
+content-skeleton.json
+.DS_Store
+Thumbs.db
+*.log
+.claude/
