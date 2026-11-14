@@ -20,6 +20,7 @@
 | Hiệu ứng | Ảnh | Trông ra sao | Truyền đạt | Hợp với | Nặng |
 |---|---|---|---|---|---|
 | Cột 3D `towers` | `towers.jpg` | cột mọc lên theo số, nhãn số trên đỉnh | so sánh quy mô | kinh tế, pitch, xã hội | ● |
+| Địa cầu tô nổi quốc gia `globe.highlight` + `zoom` | `globe-highlight.jpg` | nước chủ đề tô đỏ, có biên giới các nước; Ctrl + lăn chuột phóng to, Ctrl + kéo xoay | bài về một quốc gia / vùng | ●● |
 | Địa cầu `globe` (arcs) | `globe-arcs.jpg` | địa cầu chấm, cung sáng nối hai điểm | dòng chảy giữa nơi chốn | thương mại, di cư, quan hệ quốc tế | ●● |
 | Địa cầu `globe` (route) | `globe-route.jpg` | điểm đánh số nối theo chặng, quay tới chặng hiện tại | hành trình theo thời gian | du lịch, lịch sử chiến dịch | ●● |
 | Mạng lưới `network` | `network.jpg` | nút + cạnh sáng, nút trung tâm lớn | ai liên quan tới ai | chính trị, xã hội, kiến trúc phần mềm | ● |
@@ -45,7 +46,7 @@
 | Sơ đồ `diagram` | `diagram.jpg` | SVG tự vẽ nét theo nhịp, màu theme | cơ chế, cấu trúc, kiến trúc |
 | Lottie `lottie` | `lottie.jpg` | minh hoạ vector chuyển động lặp | thao tác sản phẩm, icon sống |
 | Lưới ảnh `gallery` block | `gallery-block.jpg` | lưới ảnh, bấm phóng to | nhiều ảnh thật ngang hàng |
-| Ảnh nền `slide.image` | `backdrop.jpg` | ảnh thật phủ màu theme (duotone) sau chữ | không khí, trích dẫn |
+| Ảnh nền `slide.image` | `backdrop.jpg` | ảnh thật màu gốc, mờ sau chữ | không khí, trích dẫn |
 | Code `code` | `code.jpg` | code tô màu, từng dòng trượt vào, dòng quan trọng nổi | lập trình |
 | Công thức `math` | `plot-curve.jpg` (góc trái) | KaTeX sắc nét | toán, khoa học |
 | Video `video` | — | mp4 tự phát / YouTube bấm mới tải | demo, tư liệu |
@@ -62,6 +63,8 @@
 | Đường nối `connectors` | `connectors.jpg` | đường gấp khúc giữa các block, nét chảy + hạt chạy | dòng chảy, quy trình nhanh |
 | Câu hỏi mở viền kiến bò · trích dẫn gõ chữ | `ants.jpg` | viền nét đứt chạy quanh; câu trích dẫn gõ từng chữ | kết bài, câu hỏi cho khán giả |
 | Số đếm trong chữ `==1.220 tỷ==` · bút dạ quét dưới `**chữ nhấn**` | (mọi ảnh) | số đếm lên giữ định dạng; vệt highlight quét qua (skin sketch/drafting) | mọi chủ đề |
+| Tóm tắt giai đoạn `morph.summary` | `morph-summary.jpg` | các giai đoạn hiện cạnh nhau thành lưới 2×2 có mũi tên | kết một chuỗi "từ… đến…" |
+| Đường dẫn tới ngăn nguồn · biểu tượng loại nguồn | `annotation.jpg` (xem trực tiếp) | bấm số có nguồn → nét đứt nối tới ngăn nguồn; slide tài liệu có icon + thống kê theo loại | mọi deck có trích dẫn |
 | Chuyển cảnh lau · tiến độ sợi chỉ | (xem trực tiếp) | slide mới lộ theo vệt quét có vạch sáng; thanh tiến độ lượn sóng có nút đổi người nói | `drafting` hoặc `transition: 'wipe'` |
 
 ## E. Hiệu ứng thư viện ngoài

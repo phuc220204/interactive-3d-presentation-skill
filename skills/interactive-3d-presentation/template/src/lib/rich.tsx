@@ -37,7 +37,8 @@ export function Cite({ id, children }: { id: string; children: ReactNode }) {
       className="cite"
       onClick={(e) => {
         e.stopPropagation();
-        open(id);
+        const r = e.currentTarget.getBoundingClientRect();
+        open(id, { x: r.left, y: r.top, w: r.width, h: r.height });
       }}
     >
       {children}

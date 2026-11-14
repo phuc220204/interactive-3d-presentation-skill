@@ -49,7 +49,9 @@ User phân vân giữa 2–3 phong cách → dựng **bản nháp A/B/C** chỉ 
 `~/.agents/skills/interactive-3d-presentation`, `~/.gemini/config/skills/interactive-3d-presentation`). Cần Node.js ≥ 20.19.
 ```bash
 cp -r <skill>/template ./ten-deck && cd ten-deck && npm install
-# Windows PowerShell: Copy-Item -Recurse <skill>\template .\ten-deck; cd ten-deck; npm install
+# Windows PowerShell (chép cả file ẩn .github, .gitignore; bỏ node_modules):
+#   robocopy <skill>\template .\ten-deck /E /XD node_modules dist dist-single qa; cd ten-deck; npm install
+# Dựng ngay trong thư mục hiện tại: robocopy <skill>\template . /E /XD node_modules dist dist-single qa
 npm run dev            # http://localhost:5173 — starter 6 slide
 npm run use-example -- economics-vi   # xem ví dụ: starter, economics-vi, travel-hoi-an, tech-talk-en,
                                       # history-art, science-lesson, business-pitch-en, drafting-lesson (sao lưu nội dung cũ)
@@ -73,7 +75,8 @@ Theo `references/content-mapping.md` + `references/layouts-blocks.md` + `referen
 - Tiêu đề là **một câu khẳng định hoặc câu hỏi** (không phải nhãn "Tổng quan").
 - Chọn hero visual trả lời câu hỏi "người xem cần THẤY gì để hiểu ý này?" — số so sánh → `towers`/`bars`;
   xu hướng → `chart`; địa điểm/tuyến đường → `globe`; quan hệ → `network`; quy trình → `flow`; thời gian →
-  `timeline`; tác phẩm/ảnh → `gallery`; hàm số → `plot`; vật thể → `model`; cơ chế → `diagram`; tỉ lệ "x/100" →
+  `timeline`; một quốc gia/vùng là chủ đề → `globe` với `highlight` (tô đỏ nước đó, có biên giới) + `regions` + `zoom`;
+  tác phẩm/ảnh → `gallery`; hàm số → `plot`; vật thể → `model`; cơ chế → `diagram`; tỉ lệ "x/100" →
   `waffle`; tiến độ/mục tiêu → `gauge`; độ dài/thời gian → `dimension`; "nếu… thì…" → `simulation`; hệ thống → `gear`.
 - Cần chỉ vào một con số/cụm chữ khi nói → `annotations` (bút tay theo nhịp); dòng chảy giữa các khối → `connectors`.
 - Viết `purpose` cho mọi cảnh. Gắn `source` cho mọi số.
@@ -82,7 +85,8 @@ Theo `references/content-mapping.md` + `references/layouts-blocks.md` + `referen
 Theo `references/assets.md`. Thứ tự ưu tiên: ảnh user gửi → ảnh thật có giấy phép (Wikimedia qua
 `npm run find-image -- "từ khoá"`, Unsplash/Pexels, trang chính thức) → sơ đồ SVG tự vẽ
 (`public/assets/diagrams/`) → Lottie → ảnh AI trang trí (`kind: 'ai'`, `depictsReal: false`). Mỗi asset một entry
-trong `sources.ts`. Ảnh phải **đúng cái đang nói** (đúng địa danh, đúng tác phẩm, đúng thời kỳ) — xem ảnh trước khi dùng.
+trong `sources.ts`. **Ảnh minh hoạ giữ nguyên màu gốc** (mặc định `treatment: 'color'`; chỉ dùng `duotone`/`mono` khi user
+yêu cầu). Ảnh phải **đúng cái đang nói** (đúng địa danh, đúng tác phẩm, đúng thời kỳ) — xem ảnh trước khi dùng.
 Số liệu và trích dẫn: theo `references/sources-verification.md` (bậc nguồn, luật chọn số, bảng kiểm chứng).
 
 ### 6 · Nhịp & chuyển động
@@ -93,7 +97,7 @@ từng bước; cảnh 3D đổi trạng thái theo nhịp (tuyến đường s�
 ### 7 · Kiểm tra
 ```bash
 npm run validate                 # schema, hero visual, purpose, nguồn, asset, mật độ chữ, brief
-npm run qa -- --theme <theme>    # (dev đang chạy) chụp mọi slide ở nhịp cuối → qa/…png, báo tràn/đè chữ/lỗi
+npm run qa -- --theme <theme>    # (dev đang chạy, tự dò cổng 5173–5185) chụp mọi slide ở nhịp cuối → qa/…png, báo tràn/đè chữ/lỗi
 ```
 **Mở ảnh trong `qa/` và nhìn**: mỗi slide một hero visual, chữ đọc được trên nền, 3D không đè chữ, ảnh đúng nội
 dung. Sửa đến khi đạt. Checklist: `references/validation-qa.md`.

@@ -17,6 +17,17 @@ Mọi cảnh khác `ambient` cần `purpose`. Trạng thái có thể đổi the
 `focus: [lat, lon]` quay điểm ra trước · `points[{at, label, tone}]` · `arcs[{from, to, tone}]` (dòng thương mại,
 di cư, chuyến bay) · `route[{at, label}]` + `active` (hành trình đánh số, `sceneBeats` đẩy `active` từng chặng) ·
 `spin`. Gần Việt Nam tự ghi **Hoàng Sa, Trường Sa (Việt Nam)**. Dùng: du lịch, địa lí, lịch sử chiến dịch, thương mại.
+- **Chủ đề là một quốc gia / vùng → luôn tô nổi nó:**
+  - `highlight: ['Vietnam']` — chấm đất của nước đó tô màu `tone` (mặc định đỏ `alert`) + viền đậm; biên giới mọi nước hiện
+    mảnh (`borders`, tự bật). Tên tiếng Anh theo Natural Earth ("Vietnam", "Thailand", "Cambodia", "United States of America")
+    hoặc mã ISO số; validator báo tên sai. Việt Nam được tô thì Hoàng Sa, Trường Sa tô cùng màu. `focus` tự lấy tâm nước.
+  - `regions: [{ name: 'ĐBSCL', polygon: [[lat, lon], …], tone }]` — vùng trong nước (đồng bằng, tỉnh, lưu vực): tô + viền + nhãn.
+    Polygon 6–15 điểm theo ranh giới thật (tra bản đồ), không vẽ đại.
+  - `zoom: 1.5–4` — mở sát vùng; dùng `sceneBeats: [{}, { zoom: 3 }]` để nhịp 0 thấy cả khu vực, nhịp 1 phóng vào.
+- Người trình chiếu: **Ctrl + lăn chuột** = phóng to/thu nhỏ địa cầu, **Ctrl + kéo chuột** = xoay; lăn chuột/click thường vẫn
+  là chuyển nhịp. Đổi slide thì trở về góc nhìn đã khai báo.
+- Nhãn trên địa cầu tự tránh đè nhau (đẩy lên/xuống); vẫn nên ≤ 4 nhãn cùng lúc.
+- Dữ liệu bản đồ: Natural Earth 1:50m qua `world-atlas` (public domain), đóng gói sẵn, chạy offline.
 
 ### `network` — mạng lưới chủ thể
 `nodes[{id, label, tone, size, center}]`, `links[{a, b, tone}]`. ≤ 12 node. Dùng: quan hệ chính trị/xã hội,
@@ -61,12 +72,16 @@ sản phẩm. Nguồn model: `assets.md`.
 ### `morph` — đám hạt biến hình
 `shape`: `sphere grid wave cluster converge split ring helix cube scatter` + hình cụ thể `person gear chip house arrow`; `tone`.
 - `path`: hình tuỳ ý — SVG path trong hộp 0–100 (bản đồ một nước, logo, sản phẩm) → hạt lấp đầy hình đó.
-- `stages: [{ shape | path, label }]` + `stageSeconds`: tự chạy một chuỗi hình có nhãn (vd. 4 thời kỳ sản xuất: nhà → bánh răng → chip → mạng), đặt cạnh list `stepwise` cùng thứ tự. Dùng có nghĩa: `converge` =
+- `stages: [{ shape | path, label }]` + `stageSeconds`: tự chạy một chuỗi hình có nhãn (vd. 4 thời kỳ sản xuất: nhà → bánh răng → chip → mạng), đặt cạnh list `stepwise` cùng thứ tự.
+- `summary: true` (thường bật ở nhịp cuối: `sceneBeats: [{}, {}, {}, {}, { summary: true }]`): mọi giai đoạn hiện cùng lúc thành
+  lưới 2×2 có mũi tên — tóm lại "đi từ đâu tới đâu" trước khi chuyển slide; đám hạt 3D mờ đi phía sau. Dùng có nghĩa: `converge` =
 hội tụ/thống nhất, `split` = đối lập, `cluster` = phân mảnh, `helix` = sinh học/tiến hoá, `grid` = hệ thống/quy
 chuẩn. Không dùng làm nền chung.
 
 ### `ambient` — nền nhẹ (mặc định)
-`state: { density, tone }`. Cho slide chữ/có block hình. Không cần `purpose`.
+`state: { density }`. Không cần `purpose`. Chỉ là nền theme + một lớp bụi rất thưa, rất nhạt trải đều khung hình — **không
+có khối/vật thể nào ở giữa**. Slide đã có block hình, bảng, số liệu, code, công thức, bento/timeline/flow hoặc là slide nguồn
+→ ambient **tự tắt hẳn** để không có gì chìm sau nội dung. `density: 0` = luôn tắt (chỉ còn nền theme).
 
 ## Cảnh DOM (thư viện ngoài)
 ### `threeui` — 18 hiệu ứng ThreeUI (MIT, Meng To)

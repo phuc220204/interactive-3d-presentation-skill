@@ -65,7 +65,7 @@ export function useDeckNav() {
 
     // Click on the stage = next beat; Shift+click / right click = previous. Interactive elements keep their clicks.
     const onClick = (e: MouseEvent) => {
-      if (e.button !== 0 || anyOverlay()) return;
+      if (e.button !== 0 || anyOverlay() || e.ctrlKey) return;
       const t = e.target as HTMLElement;
       if (!t.closest('[data-stage]') || t.closest(INTERACTIVE)) return;
       if (window.getSelection()?.toString()) return;
@@ -83,6 +83,10 @@ export function useDeckNav() {
     let locked = false;
     let acc = 0;
     const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) {
+        e.preventDefault(); // Ctrl + wheel = zoom the 3D map, not the page / not the next slide
+        return;
+      }
       const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       if (insideScrollable(e.target, d)) return;
       if (anyOverlay()) return;

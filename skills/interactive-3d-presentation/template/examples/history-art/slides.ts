@@ -119,7 +119,7 @@ export const slides: Slide[] = [
     kicker: 'Ý nghĩa',
     title: 'Mỗi bức tranh là **một lời chúc** năm mới',
     subtitle: 'Sung túc · đỗ đạt · hiếu nghĩa · bình an',
-    image: { src: P.lyNgu, alt: 'Tranh Lý ngư vọng nguyệt', sourceId: 'img-dongho', treatment: 'duotone', opacity: 0.45 },
+    image: { src: P.lyNgu, alt: 'Tranh Lý ngư vọng nguyệt', sourceId: 'img-dongho', opacity: 0.45 },
     scene: { name: 'ambient' },
     sources: ['img-dongho'],
   },

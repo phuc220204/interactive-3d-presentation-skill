@@ -66,4 +66,4 @@ export const brief: Brief = {
 
 Validator: theme trong `theme.ts` phải trùng `brief.theme`; scene ngoài `brief.scenes` → lỗi; `motion: 'calm'` mà
 dùng ThreeUI/Spline/parallax/model → cảnh báo. Muốn cho phép một hiệu ứng ThreeUI cụ thể: thêm
-`'threeui:TenHieuUng'` vào `scenes` (vd. `'threeui:NebulaBackground'`).
+`'threeui:TenHieuUng'` vào `scenes` (vd. `'threeui:NebulaBackground'`), hoặc `'threeui'` để cho phép mọi hiệu ứng ThreeUI.

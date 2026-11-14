@@ -14,3 +14,16 @@ export function mediaIndex(slide: Slide): number {
   if (slide.scene && slide.scene.name !== 'ambient') return -1;
   return (slide.blocks ?? []).findIndex((b) => VISUAL_BLOCKS.has(b.type));
 }
+
+/** Blocks that already give the eye something to read: the ambient backdrop must stay out of their way. */
+const DATA_BLOCKS = new Set<Block['type']>(['table', 'bars', 'metric', 'code', 'math', 'bento', 'compare', 'timeline', 'flow']);
+
+/**
+ * True when the slide's scene is only 'ambient' but the slide already carries a visual, a table or figures
+ * (or is the references list): the ambient layer is switched off completely so nothing sits behind the content.
+ */
+export function ambientQuiet(slide: Slide): boolean {
+  if (slide.scene && slide.scene.name !== 'ambient') return false;
+  if (slide.layout === 'references') return true;
+  return (slide.blocks ?? []).some((b) => VISUAL_BLOCKS.has(b.type) || DATA_BLOCKS.has(b.type));
+}

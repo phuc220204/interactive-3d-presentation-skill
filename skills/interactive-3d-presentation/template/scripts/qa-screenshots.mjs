@@ -19,7 +19,19 @@ const opt = (k, d) => {
   const i = argv.indexOf(`--${k}`);
   return i >= 0 ? (argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : 'true') : d;
 };
-const url = opt('url', 'http://localhost:5173');
+async function findServer() {
+  for (let port = 5173; port <= 5185; port++) {
+    try {
+      const r = await fetch(`http://localhost:${port}/`, { signal: AbortSignal.timeout(1500) });
+      if (r.ok && /id="root"/.test(await r.text())) return `http://localhost:${port}`;
+    } catch {
+      /* not this port */
+    }
+  }
+  console.error('Không thấy dev server ở cổng 5173–5185. Chạy "npm run dev" trước, hoặc truyền --url http://localhost:<cổng>.');
+  process.exit(2);
+}
+const url = opt('url') ?? (await findServer());
 const sizes = opt('sizes', '1920x1080').split(',').map((s) => s.split('x').map(Number));
 const only = opt('only') ? new Set(opt('only').split(',').map((n) => Number(n) - 1)) : null;
 const wait = Number(opt('wait', 2600));

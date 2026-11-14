@@ -8,7 +8,7 @@ Ví dụ chạy được: `npm run use-example -- <tên>`.
 | **Kinh tế** (`economics-vi`) | obsidian / ivory | data-3d | towers, globe (arcs thương mại), network, flow | chart, metric có nguồn | số không nguồn; biểu đồ 3D cho 1 con số |
 | **Chính trị, xã hội, pháp luật** | ivory / obsidian | editorial-2d | network (chủ thể), flow (thủ tục), timeline | ảnh tư liệu chính thức, quote | ảnh AI về người/sự kiện thật; màu thiên vị |
 | **Lịch sử** (`history-art`) | ivory (+`sepia` nhẹ) | editorial-2d | timeline, gallery (tư liệu), globe (chiến dịch), model (hiện vật) | ảnh lưu trữ public domain, bản đồ cổ | ảnh minh hoạ sai thời kỳ; bản đồ thiếu Hoàng Sa, Trường Sa |
-| **Địa lí** | sketchbook / whiteboard | illustrated | globe (points/route), plot (địa hình ma trận), parallax | ảnh vệ tinh/phong cảnh thật, diagram | dùng ảnh "na ná" khác địa điểm |
+| **Địa lí, môi trường một vùng** | sketchbook / whiteboard / ivory | illustrated | globe `highlight` + `regions` + `zoom`, plot (địa hình ma trận), parallax | ảnh vệ tinh/phong cảnh thật (màu gốc), diagram | dùng ảnh "na ná" khác địa điểm; địa cầu đồng màu không chỉ rõ vùng |
 | **Du lịch** (`travel-hoi-an`) | sketchbook | illustrated | globe route, gallery, parallax (1 lần), cards (vé, bản đồ), model | ảnh thật địa danh, user | quá nhiều ảnh mỗi slide; tilt-shift khắp nơi |
 | **Văn học** | ivory | editorial-2d | gallery (bìa sách, chân dung), cards (book/letter), timeline (tác phẩm) | chân dung tác giả, bìa sách, quote lớn | chữ dài trên slide — đưa trích đoạn vào notes |
 | **Nghệ thuật** (`history-art`) | ivory / obsidian | editorial-2d | gallery (arc/wall, `treatment: 'color'`), parallax | tác phẩm thật (bảo tàng open access) | duotone làm sai màu tác phẩm |

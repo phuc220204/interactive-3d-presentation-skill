@@ -6,6 +6,7 @@
 | Nhịp tiếp (hết nhịp → slide tiếp) | → · Space · PageDown · ↓ · **click trái vào sân khấu** · bút trình chiếu (gửi PageDown/→) |
 | Lùi | ← · PageUp · ↑ · **Shift+click** · **chuột phải** |
 | Con lăn / touchpad | một cử chỉ = một bước (khoá 800 ms, không trượt nhiều slide) |
+| Phóng to / xoay địa cầu | **Ctrl + lăn chuột** / **Ctrl + kéo chuột** (không chuyển slide) |
 | Màn hình cảm ứng | vuốt trái/phải |
 | Đầu / cuối | Home / End |
 | Tổng quan (lưới slide) | O hoặc M |
@@ -43,7 +44,8 @@ ghi chú cỡ chữ lớn, người nói (`slide.speaker`), đồng hồ (T bắ
   (vi 150 âm tiết/phút, en 140 từ/phút), tổng theo từng người; cảnh báo khi vượt `deck.targetMinutes`.
 
 ## Trích dẫn sống (Q&A)
-- Số/cụm có gạch chấm = có nguồn → bấm mở ngăn nguồn (APA, link, loại, giấy phép).
+- Số/cụm có gạch chấm = có nguồn → bấm mở ngăn nguồn (APA, link, loại, giấy phép, trang `page`, ý nghĩa `use`,
+  "Dẫn lại" nếu `status: 'secondary'`); một **đường dẫn nét đứt** vẽ từ con số tới ngăn nguồn để cả phòng thấy số nào đang được hỏi.
 - K: soi toàn bộ chỗ có nguồn trên slide — trả lời nhanh câu "số này lấy ở đâu?".
 - Bento `detail`: bấm thẻ mở thêm giải thích khi có câu hỏi.
 

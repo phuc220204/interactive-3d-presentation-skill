@@ -148,6 +148,7 @@ export interface ImageBlock {
   alt: string;
   caption?: Rich;
   credit?: string; // short credit line shown on the image
+  /** default 'color' = the photo's real colours. 'duotone' / 'mono' only when the author asks for a styled look. */
   treatment?: 'duotone' | 'mono' | 'color';
   ratio?: string; // CSS aspect-ratio, default "16 / 10"
 }
@@ -198,6 +199,7 @@ export interface GalleryBlock {
   type: 'gallery';
   items: { src: string; alt: string; caption?: Rich; credit?: string }[];
   columns?: 2 | 3 | 4;
+  /** default 'color' = the photo's real colours. 'duotone' / 'mono' only when the author asks for a styled look. */
   treatment?: 'duotone' | 'mono' | 'color';
   ratio?: string; // default "4 / 3"
 }
@@ -341,6 +343,16 @@ export interface GlobeScene extends SceneBase {
     route?: { at: LatLon; label?: string }[];
     /** index of the current stop in `route` (globe turns to it) */
     active?: number;
+    /** countries painted in a strong colour with a bold outline — the subject of the slide ("Vietnam", "Thailand"… English Natural Earth names, or ISO numeric id) */
+    highlight?: string[];
+    /** colour of highlight (default 'alert' = red) */
+    tone?: Tone;
+    /** draw every country border (default: on when highlight is set) */
+    borders?: boolean;
+    /** areas inside a country, e.g. a delta or a province: [lat, lon] polygon, filled + outlined + labelled */
+    regions?: { name: string; polygon: LatLon[]; tone?: Tone }[];
+    /** 1 = whole globe; 2–4 moves in on the focus (tweened, works in sceneBeats) */
+    zoom?: number;
   };
 }
 
@@ -429,6 +441,8 @@ export interface MorphScene extends SceneBase {
     /** autoplay a sequence of shapes, each with a label (e.g. 4 eras of production) — changes every stageSeconds */
     stages?: { shape?: MorphShape; path?: string; label?: string }[];
     stageSeconds?: number;
+    /** show every stage at once as a 2×2 grid with arrows (turn it on at the last beat via slide.sceneBeats) */
+    summary?: boolean;
   };
 }
 
@@ -522,6 +536,7 @@ export interface BackdropImage {
   alt: string;
   /** id of the entry in sources.ts that credits this image */
   sourceId?: string;
+  /** default 'color' = the photo's real colours. 'duotone' / 'mono' only when the author asks for a styled look. */
   treatment?: 'duotone' | 'mono' | 'color';
   opacity?: number; // 0–1, default 0.55
 }

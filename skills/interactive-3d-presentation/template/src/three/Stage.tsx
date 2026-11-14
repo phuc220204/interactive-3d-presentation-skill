@@ -11,7 +11,8 @@ import type { Layout, SceneName, SceneSpec } from '../types';
 import { CAM_Z, FOV, SceneSlot } from './SceneSlot';
 import { SCENES } from './registry';
 import { sceneAt } from '../deck/beats';
-import { mediaIndex } from '../layouts/media';
+import { ambientQuiet, mediaIndex } from '../layouts/media';
+import { morphSummaryOn } from '../deck/MorphSummary';
 import { cameraSequence, type CameraSeq } from './theatre';
 import { BackdropDirector } from './Backdrop';
 import { Surface } from './Surface';
@@ -80,8 +81,9 @@ function SceneDirector() {
   const slide = slides[index];
   const layout = slide.layout ?? 'split';
   const conf = LAYOUT_STAGE[layout];
-  // a 2D hero visual occupies the scene's region → the ambient scene stays as a faint backdrop
-  const dim = conf.dim * (mediaIndex(slide) >= 0 ? 0.14 : 1);
+  // the slide already shows a visual / table / figures → the ambient layer disappears (no watermark behind content);
+  // a morph stage summary dims the live cloud behind its grid
+  const dim = ambientQuiet(slide) ? 0 : conf.dim * (mediaIndex(slide) >= 0 || morphSummaryOn(slide, beat) ? 0.14 : 1);
   // scene state can change per beat (slide.sceneBeats) — same scene instance, new state → smooth internal transition
   const spec = sceneAt(slide, beat);
   const [mounted, setMounted] = useState<Mounted[]>(() => [{ name: spec.name, spec, active: true }]);

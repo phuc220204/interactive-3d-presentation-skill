@@ -16,13 +16,15 @@ interface DeckState {
   cite: boolean;
   /** open source drawer (source id) */
   source: string | null;
+  /** viewport box of the clicked citation (leader line start) */
+  sourceFrom: { x: number; y: number; w: number; h: number } | null;
   /** presentation clock start (ms epoch) — T starts / restarts */
   clock: number | null;
   go: (i: number, beat?: number) => void;
   next: () => void;
   prev: () => void;
   toggle: (o: Overlay, v?: boolean) => void;
-  openSource: (id: string | null) => void;
+  openSource: (id: string | null, from?: { x: number; y: number; w: number; h: number } | null) => void;
   startClock: () => void;
   closeAll: () => void;
 }
@@ -48,6 +50,7 @@ export const useDeck = create<DeckState>((set, get) => ({
   help: false,
   cite: false,
   source: null,
+  sourceFrom: null,
   clock: null,
   go: (i, beat = 0) => {
     const t = clamp(i);
@@ -69,7 +72,7 @@ export const useDeck = create<DeckState>((set, get) => ({
     else if (index > 0) get().go(index - 1, beatCount(slides[index - 1])); // land on the previous slide's last beat
   },
   toggle: (o, v) => set((s) => ({ [o]: v ?? !s[o] }) as Partial<DeckState>),
-  openSource: (id) => set({ source: id }),
+  openSource: (id, from = null) => set({ source: id, sourceFrom: id ? from : null }),
   startClock: () => set({ clock: Date.now() }),
   closeAll: () => set({ overview: false, notes: false, help: false, cite: false, source: null }),
 }));

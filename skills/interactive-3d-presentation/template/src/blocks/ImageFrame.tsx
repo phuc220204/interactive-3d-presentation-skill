@@ -10,7 +10,8 @@ import { kindTag, sourceForAsset } from '../lib/credit';
  */
 export function ImageFrame({ block }: { block: ImageBlock }) {
   const [failed, setFailed] = useState(false);
-  const t = block.treatment ?? 'duotone';
+  // photos keep their real colours unless the author explicitly asks for a duotone / mono treatment
+  const t = block.treatment ?? 'color';
   // AI / author-provided images always carry their provenance label
   const credit = [block.credit, kindTag(sourceForAsset(block.src))].filter(Boolean).join(' · ');
   return (
@@ -27,14 +28,16 @@ export function ImageFrame({ block }: { block: ImageBlock }) {
               onError={() => setFailed(true)}
               className="absolute inset-0 h-full w-full object-cover"
               style={{
-                filter: t === 'color' ? 'saturate(0.85) contrast(1.05)' : 'grayscale(1) contrast(1.15) brightness(0.9)',
+                filter: t === 'color' ? 'none' : 'grayscale(1) contrast(1.15) brightness(0.9)',
                 mixBlendMode: t === 'duotone' ? 'luminosity' : 'normal',
               }}
             />
             {t === 'duotone' && (
               <div className="pointer-events-none absolute inset-0 mix-blend-multiply" style={{ background: 'linear-gradient(135deg, var(--c-accent), color-mix(in srgb, var(--c-accent) 40%, var(--c-bg)))' }} />
             )}
-            <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 50%, color-mix(in srgb, var(--c-bg) 70%, transparent) 100%)' }} />
+            {t !== 'color' && (
+              <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 50%, color-mix(in srgb, var(--c-bg) 70%, transparent) 100%)' }} />
+            )}
           </>
         ) : (
           <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="none" aria-label={block.alt}>

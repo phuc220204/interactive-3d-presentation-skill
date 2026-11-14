@@ -33,7 +33,7 @@ void main() {
   l = smoothstep(0.04, 0.96, l);
   vec3 duo = mix(uDark, uLight, l);
   vec3 mono = vec3(l) * 0.9;
-  vec3 col = uMode < 0.5 ? duo : (uMode < 1.5 ? mono : c * 0.85);
+  vec3 col = uMode < 0.5 ? duo : (uMode < 1.5 ? mono : c);
   float d = distance(vUv, vec2(0.5));
   float vig = smoothstep(0.85, 0.25, d);
   gl_FragColor = vec4(mix(uBg, col, vig), uOpacity * uFade);
@@ -89,7 +89,7 @@ function BackdropPlane({ img, active, onGone }: { img: BackdropImage; active: bo
       uDark: { value: new THREE.Color(theme.duotone![0]) },
       uLight: { value: new THREE.Color(theme.duotone![1]) },
       uBg: { value: new THREE.Color(theme.colors.bg) },
-      uMode: { value: img.treatment === 'mono' ? 1 : img.treatment === 'color' ? 2 : 0 },
+      uMode: { value: img.treatment === 'mono' ? 1 : img.treatment === 'duotone' ? 0 : 2 }, // default: real colours
       uFade: { value: 0 },
       uOpacity: { value: img.opacity ?? 0.55 },
       uCover: { value: new THREE.Vector2(1, 1) },

@@ -11,7 +11,7 @@ Sân khấu cố định 1920×1080, tự co theo màn hình. Cỡ tiêu đề t
 | `center` | câu lớn giữa, 3D mờ phía sau | tuyên bố, trích dẫn, câu hỏi chuyển phần | 0–1 block (quote/callout) |
 | `grid` | tiêu đề trên, block toàn chiều rộng | bento, bảng, timeline, code, gallery, chart rộng | 1–2 block |
 | `full` | 3D/ảnh chiếm toàn màn, chú thích nhỏ góc trái | khoảnh khắc thị giác (globe, parallax, model) | title ngắn, không block |
-| `references` | danh sách APA tự gom, cuộn được | slide cuối | — |
+| `references` | danh sách APA tự gom (biểu tượng theo loại nguồn + hàng thống kê "4 văn bản · 3 dữ liệu · 5 ảnh"), cuộn được | slide cuối | — |
 | `section` | thẻ mở phần: số phần khổng lồ dạng nét tự vẽ, tiêu đề hiện theo cụm, người nói + khoảng slide của phần | mở đầu mỗi phần lớn (bài 3–4 phần) | title ≤ 60 ký tự, subtitle "Phần n · …", không block |
 
 ## 23 block
@@ -19,7 +19,7 @@ Mọi block nhận thêm `beat?: number` (hiện ở nhịp k) và với list/be
 
 | Block | Dùng cho | Trường chính | Giới hạn |
 |---|---|---|---|
-| `metric` | 1–3 con số lớn đếm lên | `items[{value, decimals, prefix, suffix, label, note, tone, source}]`, `hero` | 3 số |
+| `metric` | 1–3 con số lớn đếm lên | `items[{value, decimals, prefix, suffix, label, note, tone, source}]`, `hero` | 3 số (trên `split` có `lead`: ≥ 3 số thì bỏ `hero` để khỏi tràn) |
 | `compare` | hai phía đối lập/bổ sung | `left/right{title, tag, tone, points[]}`, `relation: vs/and/to`, `verdict` | 3–4 ý/bên |
 | `bento` | thẻ ý, bấm mở chi tiết (Q&A) | `items[{title, body, detail, tag, tone, span, value}]`, `columns` | 6 thẻ |
 | `timeline` | mốc thời gian ngang | `items[{date, title, body, tone}]`, `active` | 6 mốc |
@@ -63,7 +63,7 @@ Màu Lottie được nướng sẵn trong file — chọn Lottie hợp màu them
 - `grid` + `bento` (`detail` cho Q&A) + `ambient`.
 - `grid` + `chart` + `callout beat: 1` kết luận.
 - `split-right` + `quote` + scene `gallery` (tác phẩm của tác giả).
-- `center` + `quote` + ảnh nền `duotone`.
+- `center` + `quote` + ảnh nền (màu gốc, `opacity` 0.3–0.45).
 - `full` + scene `globe` route / `parallax` / `model` — slide "thở" giữa các slide dày chữ.
 - `section` mở mỗi phần → các slide `split` có `waffle`/`gauge`/`dimension` + `annotations` khoanh số chính.
 - `grid` + 2–3 `callout` có `id` + `connectors` accent = sơ đồ dòng chảy nhanh không cần vẽ SVG.

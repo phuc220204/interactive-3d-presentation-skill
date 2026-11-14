@@ -27,7 +27,7 @@ export const slides: Slide[] = [
       { label: 'Lớp', value: 'XX0000' },
       { label: 'Thành viên', value: 'A · B · C · D' },
     ],
-    scene: { name: 'globe', purpose: 'Địa cầu xoay về Việt Nam — đặt bài toán ở vị trí của Việt Nam trong chuỗi toàn cầu.', state: { focus: [14, 108] } },
+    scene: { name: 'globe', purpose: 'Địa cầu xoay về Việt Nam — đặt bài toán ở vị trí của Việt Nam trong chuỗi toàn cầu.', state: { focus: [14, 108], highlight: ['Vietnam'] } },
   },
   {
     id: 's02',
@@ -164,7 +164,6 @@ export const slides: Slide[] = [
       src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Street_vendor_in_Old_Town_of_Hanoi%2C_20240204_1338_5775.jpg/1920px-Street_vendor_in_Old_Town_of_Hanoi%2C_20240204_1338_5775.jpg',
       alt: 'Người bán hàng rong ở phố cổ Hà Nội',
       sourceId: 'img-hanoi',
-      treatment: 'duotone',
       opacity: 0.45,
     },
     scene: { name: 'ambient' },

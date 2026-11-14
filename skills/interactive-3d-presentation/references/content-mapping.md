@@ -14,11 +14,12 @@
 | So sánh 2–6 số cùng đơn vị | `towers` | `bars`, `metric` |
 | Xu hướng theo thời gian | `timeline` (mốc) | `chart` line/area |
 | Cơ cấu, tỉ trọng | — | `chart` donut/stacked |
+| Một quốc gia / vùng là chủ đề | `globe` + `highlight` (+ `regions`, `zoom`) | `image` bản đồ |
 | Địa điểm, tuyến đường, di cư, thương mại | `globe` (`points`, `arcs`, `route`) | `image` bản đồ |
 | Quan hệ giữa các chủ thể | `network` | `diagram` |
 | Quy trình, chuỗi nhân quả | `flow` | `flow` block, `diagram` |
 | Tác phẩm, hiện vật, ảnh tư liệu | `gallery` (arc/wall/stack) | `image`, `gallery` block |
-| Không gian, phong cảnh có chiều sâu | `parallax` | `image` + duotone |
+| Không gian, phong cảnh có chiều sâu | `parallax` | `image` (màu gốc) |
 | Vật thể (di vật, phân tử, sản phẩm) | `model` (+ hotspots, morph) | `image` |
 | Hàm số, mặt cong, ma trận | `plot` | `math` |
 | Giấy tờ, hợp đồng, vé, thư, điện thoại | `cards` | `image` |
@@ -76,7 +77,7 @@ Skeleton chỉ là gợi ý — **bạn quyết định** hero visual theo bản
 
 **Chính trị / xã hội** — `network` các chủ thể (nhà nước, doanh nghiệp, người dân) + `compare` hai quan điểm.
 
-**Văn học** — `quote` lớn trên `center` + ảnh nền tác giả (duotone) — không cần 3D.
+**Văn học** — `quote` lớn trên `center` + ảnh nền tác giả (màu gốc, `opacity` thấp) — không cần 3D.
 
 **Pitch** — `metric` hero 3 số → `chart` tăng trưởng → `towers` thị trường → `lottie` sản phẩm (1 lần) → `cover` kết.
 

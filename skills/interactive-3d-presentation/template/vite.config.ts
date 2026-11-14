@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         'lenis',
         '@formkit/auto-animate/react',
         'prism-react-renderer',
+        'topojson-client',
       ],
     },
   };

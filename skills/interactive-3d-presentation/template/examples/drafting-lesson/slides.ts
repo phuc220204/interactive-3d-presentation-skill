@@ -149,6 +149,8 @@ export const slides: Slide[] = [
       purpose: 'Hạt chuyển từ ngôi nhà (nơi dùng điện) sang mũi tên đi lên (tự sản xuất) rồi con chip (đo đạc, dạy học) — đúng ba vai trò trong danh sách.',
       state: { stages: [{ shape: 'house', label: 'Dùng điện' }, { shape: 'arrow', label: 'Làm ra điện' }, { shape: 'chip', label: 'Dạy học' }], stageSeconds: 5 },
     },
+    // last beat: all three roles side by side (2×2 summary grid with arrows)
+    sceneBeats: [{}, {}, {}, {}, { summary: true }],
     speaker: 'Minh',
   },
   {

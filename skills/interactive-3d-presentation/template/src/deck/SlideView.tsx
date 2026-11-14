@@ -7,6 +7,7 @@ import { useSlideEnter } from '../motion/useSlideEnter';
 import { SlideLayout } from '../layouts/SlideLayout';
 import { checkOverflow } from './devApi';
 import { Overlays } from './Overlays';
+import { MorphSummary } from './MorphSummary';
 
 export function SlideView({ slide, index }: { slide: Slide; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -50,6 +51,7 @@ export function SlideView({ slide, index }: { slide: Slide; index: number }) {
     >
       <SlideLayout slide={slide} index={index} />
       <Overlays slide={slide} sectionRef={ref} />
+      <MorphSummary slide={slide} />
       {overflow.length > 0 && (
         <div className="absolute top-[64px] left-1/2 z-50 -translate-x-1/2 bg-alert px-4 py-2 font-mono text-[16px] text-white">
           ⚠ OVERFLOW · {overflow.join(' · ')} — reduce text or switch layout

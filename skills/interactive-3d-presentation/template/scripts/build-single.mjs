@@ -7,7 +7,7 @@
  * Cảnh báo: asset còn ở URL từ xa (chưa `npm run assets:pull`), YouTube (cần mạng), file > 20 MB.
  */
 import { execSync } from 'node:child_process';
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { extname, join, relative } from 'node:path';
 import { loadModules } from './load-content.mjs';
 
@@ -20,7 +20,8 @@ const MIME = {
 
 // remote assets still not local → they will need internet
 const [{ slides }] = await loadModules('/src/content/index.ts');
-const map = JSON.parse(readFileSync('public/assets/assets-map.json', 'utf8'));
+const mapPath = 'public/assets/assets-map.json';
+const map = existsSync(mapPath) ? JSON.parse(readFileSync(mapPath, 'utf8')) : {};
 const remote = new Set();
 let youtube = 0;
 const scan = (v) => {

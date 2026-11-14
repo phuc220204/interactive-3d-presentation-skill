@@ -76,10 +76,15 @@ export interface LabelProps {
   /** evaluated every frame (e.g. hide labels on the far side of a globe) */
   getVisible?: () => boolean;
   align?: 'center' | 'left' | 'right';
+  /** shift this label up/down when it would cover another `avoid` label drawn earlier in the frame */
+  avoid?: boolean;
 }
 
 /** Text pinned to a 3D point; fades with its scene. Styled by `.scene-label` (index.css). */
-export function Label({ position = [0, 0, 0], value, text, sub, color, dim, small, visible = true, getVisible, align = 'center' }: LabelProps) {
+/** Boxes of 'avoid' labels already placed this frame (screen px). */
+const placed: { t: number; boxes: { x: number; y: number; w: number; h: number }[] } = { t: -1, boxes: [] };
+
+export function Label({ position = [0, 0, 0], value, text, sub, color, dim, small, visible = true, getVisible, align = 'center', avoid }: LabelProps) {
   const fade = useFade();
   const anchor = useRef<THREE.Group>(null);
   const el = useMemo(() => document.createElement('div'), []);
@@ -117,14 +122,36 @@ export function Label({ position = [0, 0, 0], value, text, sub, color, dim, smal
   }, [el, value, text, sub, color, dim]);
 
   const tx = align === 'center' ? '-50%' : align === 'left' ? '0%' : '-100%';
-  useFrame((_, dt) => {
+  const shiftY = useRef(0);
+  useFrame((state, dt) => {
     const a = anchor.current;
     if (!a) return;
     a.getWorldPosition(v);
     v.project(camera);
     const x = size.left + (v.x * 0.5 + 0.5) * size.width;
-    const y = size.top + (-v.y * 0.5 + 0.5) * size.height;
+    let y = size.top + (-v.y * 0.5 + 0.5) * size.height;
     const show = visible && v.z < 1 && (!getVisible || getVisible());
+    if (avoid && show) {
+      if (placed.t !== state.clock.elapsedTime) {
+        placed.t = state.clock.elapsedTime;
+        placed.boxes = [];
+      }
+      const w = el.offsetWidth || 120;
+      const h = (el.offsetHeight || 18) + 4;
+      const left = align === 'center' ? x - w / 2 : align === 'left' ? x : x - w;
+      let dy = 0;
+      // try: stay, below, above, further below, further above
+      for (const cand of [0, h, -h, 2 * h, -2 * h, 3 * h]) {
+        const top = y + cand - h / 2;
+        if (!placed.boxes.some((b) => left < b.x + b.w && left + w > b.x && top < b.y + b.h && top + h > b.y)) {
+          dy = cand;
+          break;
+        }
+      }
+      shiftY.current = THREE.MathUtils.damp(shiftY.current, dy, 10, dt);
+      y += shiftY.current;
+      placed.boxes.push({ x: left, y: y - h / 2, w, h });
+    }
     cur.current = THREE.MathUtils.damp(cur.current, (show ? 1 : 0) * fade.v, 6, dt);
     el.style.opacity = cur.current.toFixed(3);
     el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(${tx}, -50%)`;

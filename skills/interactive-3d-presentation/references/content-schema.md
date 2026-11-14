@@ -40,7 +40,7 @@ export const deck: DeckMeta = {
 | `meta` | cover: nhóm, người trình bày, ngày… |
 | `blocks` | `Block[]` (xem `layouts-blocks.md`) — 0–3 block |
 | `scene` | **bắt buộc**; `{ name: 'ambient' }` khi slide không cần 3D |
-| `image` | ảnh nền `{ src, alt, sourceId, treatment: 'duotone'|'mono'|'color', opacity }` |
+| `image` | ảnh nền `{ src, alt, sourceId, treatment, opacity }` — `treatment` mặc định `'color'` (màu gốc) |
 | `scope` | chú thích "GIỚI HẠN" cuối slide |
 | `sources` | id nguồn hiện ở footer NGUỒN (tự gộp thêm các `[..](^id)` trong slide) |
 | `speaker` | người nói (presenter + SCRIPT.md) |

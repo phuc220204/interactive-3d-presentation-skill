@@ -55,5 +55,5 @@ chỉnh cho đủ tương phản), lựa chọn được nhớ trên máy đó; 
 Hậu kỳ chỉ áp dụng cho lớp 3D, không làm mờ chữ.
 
 ## Ảnh theo theme
-`treatment: 'duotone'` tô ảnh theo hai màu theme (đồng bộ mọi ảnh khác nguồn), `'mono'` đen trắng, `'color'` giữ
+**Mặc định mọi ảnh giữ màu gốc (`'color'`).** Chỉ khi user yêu cầu một phong cách đồng bộ mới dùng: `treatment: 'duotone'` tô ảnh theo hai màu theme (đồng bộ mọi ảnh khác nguồn), `'mono'` đen trắng, `'color'` giữ
 màu (tác phẩm nghệ thuật, sản phẩm — phải giữ màu thật).

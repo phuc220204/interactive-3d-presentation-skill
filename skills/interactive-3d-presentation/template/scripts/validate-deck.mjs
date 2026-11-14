@@ -42,6 +42,15 @@ const plain = (t = '') =>
     .replace(/\*\*|!!|==/g, '')
     .replace(/\*([^*]+)\*/g, '$1');
 const words = (t) => plain(t).split(/\s+/).filter(Boolean).length;
+/** Text the audience actually reads in a block (labels, bodies, items…), not option values (tone, style, kind, ids, urls). */
+const TEXT_KEYS = new Set(['title', 'body', 'label', 'note', 'caption', 'text', 'detail', 'verdict', 'tag', 'date', 'author', 'role', 'name', 'value']);
+function visibleText(v, key = '') {
+  if (typeof v === 'string') return TEXT_KEYS.has(key) || key === '#' ? v : '';
+  if (typeof v === 'number') return '';
+  if (Array.isArray(v)) return v.map((x) => visibleText(x, ['items', 'points', 'columns', 'rows', 'labels'].includes(key) || key === '#' ? '#' : key)).join(' ');
+  if (v && typeof v === 'object') return Object.entries(v).map(([k, x]) => (['code', 'tex', 'src', 'fn', 'source', 'id', 'type'].includes(k) ? '' : visibleText(x, k))).join(' ');
+  return '';
+}
 
 /* ---------------- schemas ---------------- */
 const PLOT_IDS = new Set(['x', 'y', 'pi', 'e', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'sinh', 'cosh', 'tanh', 'exp', 'log', 'sqrt', 'abs', 'pow', 'min', 'max', 'floor', 'ceil', 'sign']);
@@ -49,7 +58,7 @@ const SCENES = {
   ambient: () => true,
   threeui: () => true,
   spline: (st, sc) => typeof sc.scene === 'string',
-  globe: (st) => st && (st.focus || st.arcs || st.points || st.route),
+  globe: (st) => st && (st.focus || st.arcs || st.points || st.route || st.highlight || st.regions),
   towers: (st) => st && Array.isArray(st.items) && st.items.length >= 1 && st.items.every((i) => typeof i.value === 'number'),
   morph: (st) => {
     const ok = (x) => x && (typeof x.path === 'string' || ['sphere', 'grid', 'wave', 'cluster', 'converge', 'split', 'ring', 'helix', 'cube', 'scatter', 'person', 'gear', 'chip', 'house', 'arrow'].includes(x.shape));
@@ -65,6 +74,14 @@ const SCENES = {
   plot: (st) => st && (st.fn || Array.isArray(st.matrix)),
   gear: () => true,
 };
+const COUNTRY_NAMES = (() => {
+  try {
+    const t = JSON.parse(readFileSync('node_modules/world-atlas/countries-50m.json', 'utf8'));
+    return new Set(t.objects.countries.geometries.map((g) => String(g.properties.name).toLowerCase()));
+  } catch {
+    return new Set();
+  }
+})();
 const LAYOUTS = ['cover', 'split', 'split-right', 'center', 'grid', 'full', 'references', 'section'];
 const BLOCKS = ['metric', 'compare', 'bento', 'timeline', 'flow', 'quote', 'callout', 'table', 'bars', 'list', 'image', 'references', 'chart', 'code', 'math', 'gallery', 'video', 'diagram', 'lottie', 'waffle', 'gauge', 'dimension', 'simulation'];
 const VISUAL_BLOCKS = new Set(['image', 'gallery', 'video', 'chart', 'diagram', 'lottie', 'waffle', 'gauge', 'dimension', 'simulation']);
@@ -170,6 +187,11 @@ for (const [i, s] of slides.entries()) {
     const nodeIds = new Set(scene.state.nodes.map((n) => n.id));
     for (const l of scene.state.links) if (!nodeIds.has(l.a) || !nodeIds.has(l.b)) E(id, `network: liên kết ${l.a}→${l.b} trỏ tới node không có`);
   }
+  if (scene?.name === 'globe') {
+    for (const n of scene.state?.highlight ?? []) if (!COUNTRY_NAMES.has(n.trim().toLowerCase()) && !/^\d+$/.test(n.trim()) && !['viet nam', 'việt nam', 'usa', 'us', 'uk', 'korea'].includes(n.trim().toLowerCase()))
+      E(id, `globe.highlight: không có nước "${n}" — dùng tên tiếng Anh Natural Earth (vd. "Vietnam", "Thailand", "United States of America") hoặc mã ISO số`);
+    for (const r of scene.state?.regions ?? []) if (!Array.isArray(r.polygon) || r.polygon.length < 3) E(id, `globe.regions "${r.name}": polygon cần ≥ 3 điểm [lat, lon]`);
+  }
   if (scene?.name === 'plot' && scene.state?.fn) {
     const bad = (scene.state.fn.match(/[a-z]+/gi) ?? []).filter((w) => !PLOT_IDS.has(w.toLowerCase()));
     if (bad.length) E(id, `plot fn dùng tên không hỗ trợ: ${bad.join(', ')}`);
@@ -200,7 +222,7 @@ for (const [i, s] of slides.entries()) {
   if (tl > 90) W(id, `tiêu đề ${tl} ký tự — chuyển phần sau sang subtitle/lead`);
   if (words(s.title) < 3 && !/[?？]/.test(s.title) && !['cover', 'references', 'center'].includes(layout)) W(id, 'tiêu đề nên là một câu khẳng định hoặc câu hỏi, không phải nhãn chủ đề');
   if (s.lead && plain(s.lead).length > 260) W(id, 'lead > 260 ký tự');
-  const bodyWords = words(s.lead ?? '') + words(JSON.stringify(blocks.map((b) => ({ ...b, src: undefined, code: undefined, tex: undefined }))).replace(/"[a-zA-Z]+":/g, ' '));
+  const bodyWords = words(s.lead ?? '') + blocks.reduce((n, b) => n + words(visibleText(b)), 0);
   if (bodyWords > 70 && layout !== 'references') W(id, `~${bodyWords} từ ngoài tiêu đề — quá nhiều chữ, đưa phần giải thích vào notes`);
   if (blocks.length > 3) W(id, `${blocks.length} block — quá dày`);
   for (const b of blocks) {
@@ -246,7 +268,7 @@ for (const [i, s] of slides.entries()) {
 
   // 4. brief
   if (brief) {
-    if (meaningful && Array.isArray(brief.scenes) && !brief.scenes.includes(scene.name) && !(scene.name === 'threeui' && brief.scenes.includes(`threeui:${scene.component}`)))
+    if (meaningful && Array.isArray(brief.scenes) && !brief.scenes.includes(scene.name) && !(scene.name === 'threeui' && (brief.scenes.includes('threeui') || brief.scenes.includes(`threeui:${scene.component}`))))
       E(id, `scene "${scene.name}${scene.name === 'threeui' ? ':' + scene.component : ''}" ngoài brief.scenes (${brief.scenes.join(', ')}) — giữ một họ hiệu ứng, hoặc cập nhật brief khi user đồng ý`);
     if (brief.motion === 'calm' && HEAVY.has(scene?.name)) W(id, `brief.motion = 'calm' nhưng dùng ${scene.name}`);
   }

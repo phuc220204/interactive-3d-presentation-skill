@@ -14,6 +14,8 @@
 - **Font** qua @fontsource (Playfair Display, Be Vietnam Pro, JetBrains Mono, Space Grotesk, IBM Plex Mono, Lora, Pangolin,
   Patrick Hand, Mali, Itim) — SIL Open Font License 1.1.
 - **Land mask** (`src/three/landmask.ts`) — từ Natural Earth (public domain) qua world-atlas.
+- **world-atlas** (`countries-50m.json`, ranh giới quốc gia Natural Earth 1:50m) — ISC; dữ liệu Natural Earth là public domain.
+- **topojson-client** — ISC.
 
 ## Công cụ dev (không vào bản build)
 - **puppeteer-core** — Apache-2.0 (QA ảnh chụp dùng Chrome/Edge có sẵn trên máy).

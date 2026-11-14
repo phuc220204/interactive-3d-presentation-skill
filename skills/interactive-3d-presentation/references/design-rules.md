@@ -9,6 +9,8 @@
   `chart`, `diagram`, `lottie`). Khi đã có block hình thì `scene: { name: 'ambient' }`.
 - Ngoại lệ hợp lệ: layout `grid`/`center` đặt cảnh 3D mờ phía sau — vẫn chỉ nên có một thứ thu hút mắt.
 - Ảnh nền (`slide.image`) là lớp không khí, không phải hero: đừng chồng thêm ThreeUI/parallax/model lên nó.
+- Không có "watermark" 3D: sau biểu đồ, sơ đồ, bảng, ảnh… không được có vật thể trang trí chìm. `ambient` tự tắt trên các
+  slide này; đừng thay `ambient` bằng `morph`/ThreeUI chỉ để "đỡ trống" — khoảng trống là có chủ đích.
 - Validator: 2 block hình → lỗi; cảnh 3D + block hình trong `split/split-right/cover/full` → lỗi.
 
 ## 2. 3D phải mang nghĩa
@@ -59,5 +61,7 @@ Không đặt mã màu cứng trong slide — luôn qua `tone` hoặc biến the
 | Biểu đồ 3D cho số ít/không so sánh | trang trí giả dữ liệu | `metric` lớn hoặc `bars` |
 | Ảnh AI vẽ người/sự kiện/địa danh thật | sai sự thật, mất uy tín | ảnh thật có credit |
 | Ảnh "na ná" (ảnh phố bất kỳ cho Hội An) | sai nội dung | tìm đúng ảnh, xem trước khi dùng |
-| Chữ đặt lên vùng ảnh/3D sáng | không đọc được | layout split, scrim, hoặc treatment `duotone` |
+| Chữ đặt lên vùng ảnh/3D sáng | không đọc được | layout split (ảnh sang vùng hình), giảm `opacity` ảnh nền |
+| Nhuộm màu ảnh minh hoạ (duotone, sepia) khi user không yêu cầu | sai màu thật của địa danh, tác phẩm, sản phẩm | giữ `treatment: 'color'` (mặc định) |
+| Địa cầu đồng màu khi chủ đề là một nước | khán giả không biết nhìn vào đâu | `highlight` nước đó + `zoom` |
 | Bảng > 3 cột trong `split` | chật | layout `grid` |

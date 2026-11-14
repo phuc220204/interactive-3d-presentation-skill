@@ -38,7 +38,7 @@ export const slides: Slide[] = [
       { label: 'Thời lượng', value: '3 ngày' },
       { label: 'Lộ trình', value: 'Hà Nội → Đà Nẵng → Hội An' },
     ],
-    scene: { name: 'globe', purpose: 'Địa cầu xoay về miền Trung Việt Nam — nơi hành trình diễn ra.', state: { route, active: 0 } },
+    scene: { name: 'globe', purpose: 'Địa cầu xoay về miền Trung Việt Nam — nơi hành trình diễn ra; Việt Nam tô nổi để thấy ngay vị trí.', state: { route, active: 0, highlight: ['Vietnam'], zoom: 1.6 } },
   },
   {
     id: 's02',
